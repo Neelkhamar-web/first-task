@@ -1,0 +1,147 @@
+1. Set Up React Project
+Create a new React project:
+sh
+Copy code
+npx create-react-app my-modular-app
+cd my-modular-app
+2. Install Required Dependencies
+Install React Router:
+sh
+Copy code
+npm install react-router-dom
+3. Create Module Components
+Create folders named admin and user inside the src directory. Each folder will contain the components for the respective modules.
+
+src/admin/Admin.js
+jsx
+Copy code
+import React from 'react';
+import { Link, Outlet } from 'react-router-dom';
+
+const Admin = () => {
+  return (
+    <div>
+      <h1>Admin Dashboard</h1>
+      <nav>
+        <Link to="settings">Settings</Link>
+        <Link to="reports">Reports</Link>
+      </nav>
+      <Outlet />
+    </div>
+  );
+};
+
+export default Admin;
+src/admin/Settings.js
+jsx
+Copy code
+import React from 'react';
+
+const Settings = () => {
+  return <h2>Admin Settings</h2>;
+};
+
+export default Settings;
+src/admin/Reports.js
+jsx
+Copy code
+import React from 'react';
+
+const Reports = () => {
+  return <h2>Admin Reports</h2>;
+};
+
+export default Reports;
+src/user/User.js
+jsx
+Copy code
+import React from 'react';
+import { Link, Outlet } from 'react-router-dom';
+
+const User = () => {
+  return (
+    <div>
+      <h1>User Dashboard</h1>
+      <nav>
+        <Link to="profile">Profile</Link>
+        <Link to="orders">Orders</Link>
+      </nav>
+      <Outlet />
+    </div>
+  );
+};
+
+export default User;
+src/user/Profile.js
+jsx
+Copy code
+import React from 'react';
+
+const Profile = () => {
+  return <h2>User Profile</h2>;
+};
+
+export default Profile;
+src/user/Orders.js
+jsx
+Copy code
+import React from 'react';
+
+const Orders = () => {
+  return <h2>User Orders</h2>;
+};
+
+export default Orders;
+4. Set Up React Router with Lazy Loading
+Update the src/App.js file to set up routing with lazy loading.
+
+src/App.js
+jsx
+Copy code
+import React, { Suspense, lazy } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+
+const Admin = lazy(() => import('./admin/Admin'));
+const Settings = lazy(() => import('./admin/Settings'));
+const Reports = lazy(() => import('./admin/Reports'));
+const User = lazy(() => import('./user/User'));
+const Profile = lazy(() => import('./user/Profile'));
+const Orders = lazy(() => import('./user/Orders'));
+
+function App() {
+  return (
+    <Router>
+      <div>
+        <nav>
+          <Link to="/admin">Admin</Link>
+          <Link to="/user">User</Link>
+        </nav>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Routes>
+            <Route path="/admin" element={<Admin />}>
+              <Route path="settings" element={<Settings />} />
+              <Route path="reports" element={<Reports />} />
+            </Route>
+            <Route path="/user" element={<User />}>
+              <Route path="profile" element={<Profile />} />
+              <Route path="orders" element={<Orders />} />
+            </Route>
+          </Routes>
+        </Suspense>
+      </div>
+    </Router>
+  );
+}
+
+export default App;
+Summary:
+Set Up React Project: Created a new React app and installed React Router.
+Created Module Components: Created Admin and User modules with child components.
+Set Up React Router with Lazy Loading: Implemented lazy loading and nested routing using React Router.
+Complete these tasks to set up a modular React application with lazy loading and child routes.
+
+
+
+
+
+
