@@ -1,0 +1,177 @@
+1. Set Up React Project with Styled-Components
+Create a new React project:
+
+sh
+Copy code
+npx create-react-app shopping-site
+cd shopping-site
+Install Styled-Components:
+
+sh
+Copy code
+npm install styled-components
+2. Create Components for the Shopping Site Home Page
+Create a folder named components inside the src directory and create the following files:
+
+Header.js
+Content.js
+Footer.js
+ProductCard.js
+3. Style the Components Using Styled-Components
+Header.js
+jsx
+Copy code
+import React from 'react';
+import styled from 'styled-components';
+
+const HeaderContainer = styled.header`
+  background-color: #282c34;
+  padding: 20px;
+  color: white;
+  text-align: center;
+`;
+
+const Logo = styled.h1`
+  font-size: 2rem;
+`;
+
+const Header = () => {
+  return (
+    <HeaderContainer>
+      <Logo>Shopping Site</Logo>
+    </HeaderContainer>
+  );
+};
+
+export default Header;
+Content.js
+jsx
+Copy code
+import React from 'react';
+import styled from 'styled-components';
+import ProductCard from './ProductCard';
+
+const ContentContainer = styled.main`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 20px;
+`;
+
+const Content = () => {
+  const products = [
+    { id: 1, name: 'Product 1', price: '$10' },
+    { id: 2, name: 'Product 2', price: '$20' },
+    { id: 3, name: 'Product 3', price: '$30' },
+  ];
+
+  return (
+    <ContentContainer>
+      {products.map(product => (
+        <ProductCard key={product.id} product={product} />
+      ))}
+    </ContentContainer>
+  );
+};
+
+export default Content;
+Footer.js
+jsx
+Copy code
+import React from 'react';
+import styled from 'styled-components';
+
+const FooterContainer = styled.footer`
+  background-color: #282c34;
+  padding: 20px;
+  color: white;
+  text-align: center;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+`;
+
+const Footer = () => {
+  return (
+    <FooterContainer>
+      <p>&copy; 2024 Shopping Site. All rights reserved.</p>
+    </FooterContainer>
+  );
+};
+
+export default Footer;
+ProductCard.js
+jsx
+Copy code
+import React from 'react';
+import styled from 'styled-components';
+
+const Card = styled.div`
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 20px;
+  margin: 10px;
+  width: 200px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+`;
+
+const ProductName = styled.h2`
+  font-size: 1.5rem;
+`;
+
+const ProductPrice = styled.p`
+  color: #888;
+`;
+
+const ProductCard = ({ product }) => {
+  return (
+    <Card>
+      <ProductName>{product.name}</ProductName>
+      <ProductPrice>{product.price}</ProductPrice>
+    </Card>
+  );
+};
+
+export default ProductCard;
+App.js
+Replace the contents of src/App.js with the following code to integrate all the components:
+
+jsx
+Copy code
+import React from 'react';
+import styled from 'styled-components';
+import Header from './components/Header';
+import Content from './components/Content';
+import Footer from './components/Footer';
+
+const AppContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+`;
+
+const AppContent = styled.div`
+  flex: 1;
+`;
+
+function App() {
+  return (
+    <AppContainer>
+      <Header />
+      <AppContent>
+        <Content />
+      </AppContent>
+      <Footer />
+    </AppContainer>
+  );
+}
+
+export default App;
+Summary:
+Header.js: A styled header component.
+Content.js: A main content area displaying a list of products.
+Footer.js: A styled footer component.
+ProductCard.js: A styled card component for individual products.
+App.js: Integrates the components to form the home page.
+Complete these tasks to create a simple yet styled shopping site home page using React and Styled-Components.
