@@ -143,5 +143,273 @@ Complete these tasks to set up a modular React application with lazy loading and
 
 
 
+Set Up Redux and Redux Thunk:
+sh
+Copy code
+npm install redux react-redux redux-thunk
+Create Actions and Reducers:
+src/redux/actions/authActions.js
 
+jsx
+Copy code
+import axios from 'axios';
+
+export const loginUser = (credentials) => async (dispatch) => {
+  try {
+    const response = await axios.post('/api/login', credentials);
+    dispatch({ type: 'LOGIN_SUCCESS', payload: response.data });
+  } catch (error) {
+    dispatch({ type: 'LOGIN_FAILURE', error });
+  }
+};
+
+export const registerUser = (userData) => async (dispatch) => {
+  try {
+    const response = await axios.post('/api/register', userData);
+    dispatch({ type: 'REGISTER_SUCCESS', payload: response.data });
+  } catch (error) {
+    dispatch({ type: 'REGISTER_FAILURE', error });
+  }
+};
+src/redux/reducers/authReducer.js
+
+jsx
+Copy code
+const initialState = {
+  user: null,
+  error: null,
+};
+
+export default function authReducer(state = initialState, action) {
+  switch (action.type) {
+    case 'LOGIN_SUCCESS':
+      return { ...state, user: action.payload };
+    case 'LOGIN_FAILURE':
+      return { ...state, error: action.error };
+    case 'REGISTER_SUCCESS':
+      return { ...state, user: action.payload };
+    case 'REGISTER_FAILURE':
+      return { ...state, error: action.error };
+    default:
+      return state;
+  }
+}
+src/redux/store.js
+
+jsx
+Copy code
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import thunk from 'redux-thunk';
+import authReducer from './reducers/authReducer';
+
+const rootReducer = combineReducers({
+  auth: authReducer,
+});
+
+const store = createStore(rootReducer, applyMiddleware(thunk));
+
+export default store;
+Create Components:
+src/components/Login.js
+
+jsx
+Copy code
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from '../redux/actions/authActions';
+
+const Login = () => {
+  const [credentials, setCredentials] = useState({ username: '', password: '' });
+  const dispatch = useDispatch();
+  const error = useSelector(state => state.auth.error);
+
+  const handleChange = (e) => {
+    setCredentials({ ...credentials, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(loginUser(credentials));
+  };
+
+  return (
+    <div>
+      <h2>Login</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="username"
+          value={credentials.username}
+          onChange={handleChange}
+          placeholder="Username"
+        />
+        <input
+          type="password"
+          name="password"
+          value={credentials.password}
+          onChange={handleChange}
+          placeholder="Password"
+        />
+        <button type="submit">Login</button>
+      </form>
+      {error && <p>{error.message}</p>}
+    </div>
+  );
+};
+
+export default Login;
+src/components/Register.js
+
+jsx
+Copy code
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerUser } from '../redux/actions/authActions';
+
+const Register = () => {
+  const [userData, setUserData] = useState({ username: '', password: '' });
+  const dispatch = useDispatch();
+  const error = useSelector(state => state.auth.error);
+
+  const handleChange = (e) => {
+    setUserData({ ...userData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(registerUser(userData));
+  };
+
+  return (
+    <div>
+      <h2>Register</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="username"
+          value={userData.username}
+          onChange={handleChange}
+          placeholder="Username"
+        />
+        <input
+          type="password"
+          name="password"
+          value={userData.password}
+          onChange={handleChange}
+          placeholder="Password"
+        />
+        <button type="submit">Register</button>
+      </form>
+      {error && <p>{error.message}</p>}
+    </div>
+  );
+};
+
+export default Register;
+src/components/CrudOperations.js
+
+jsx
+Copy code
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+
+const CrudOperations = () => {
+  const [data, setData] = useState([]);
+  const [formData, setFormData] = useState({ name: '', value: '' });
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.auth.user);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    const response = await axios.get('/api/data');
+    setData(response.data);
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleCreate = async (e) => {
+    e.preventDefault();
+    const response = await axios.post('/api/data', formData);
+    setData([...data, response.data]);
+  };
+
+  const handleUpdate = async (id) => {
+    const response = await axios.put(`/api/data/${id}`, formData);
+    setData(data.map(item => (item.id === id ? response.data : item)));
+  };
+
+  const handleDelete = async (id) => {
+    await axios.delete(`/api/data/${id}`);
+    setData(data.filter(item => item.id !== id));
+  };
+
+  return (
+    <div>
+      <h2>CRUD Operations</h2>
+      <form onSubmit={handleCreate}>
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          placeholder="Name"
+        />
+        <input
+          type="text"
+          name="value"
+          value={formData.value}
+          onChange={handleChange}
+          placeholder="Value"
+        />
+        <button type="submit">Create</button>
+      </form>
+      <ul>
+        {data.map(item => (
+          <li key={item.id}>
+            {item.name}: {item.value}
+            <button onClick={() => handleUpdate(item.id)}>Update</button>
+            <button onClick={() => handleDelete(item.id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default CrudOperations;
+Connect Components to Redux Store:
+src/index.js
+
+jsx
+Copy code
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import store from './redux/store';
+import App from './App';
+import Login from './components/Login';
+import Register from './components/Register';
+import CrudOperations from './components/CrudOperations';
+
+ReactDOM.render(
+  <Provider store={store}>
+    <Router>
+      <Routes>
+        <Route path="/" element={<App />}>
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+          <Route path="crud" element={<CrudOperations />} />
+        </Route>
+      </Routes>
+    </Router>
+  </Provider>,
+  document.getElementById('root')
+);
 
