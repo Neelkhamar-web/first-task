@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Designing Company Template</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="logo.png" alt="Company Logo">
+            </div>
+            <nav>
+                <ul class="menu1">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Horizontal Menu 1 -->
+    <nav class="horizontal-menu">
+        <ul class="menu2">
+            <li><a href="#">Web Layouts</a>
+                <div class="more-services">
+                    <ul>
+                        <li><a href="#">Portfolio</a></li>
+                        <li><a href="#">Services</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li><a href="#">Logos</a>
+                <div class="more-services">
+                    <ul>
+                        <li><a href="#">Brand Identity</a></li>
+                        <li><a href="#">Logo Design</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li><a href="#">Banner</a></li>
+            <li><a href="#">Flyer</a></li>
+        </ul>
+    </nav>
+
+    <!-- Content Area -->
+    <section class="content">
+        <div class="container">
+            <div class="welcome-note">
+                <h2>Welcome to Our Website</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </div>
+            <div class="latest-projects">
+                <h2>Latest Projects</h2>
+                <div class="project">
+                    <img src="project1.jpg" alt="Project 1">
+                    <p>Project Name</p>
+                </div>
+                <div class="project">
+                    <img src="project2.jpg" alt="Project 2">
+                    <p>Project Name</p>
+                </div>
+                <!-- Add more project sections as needed -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Web Designing Company. All rights reserved.</p>
+            <ul class="social-icons">
+                <li><a href="#"><img src="facebook.png" alt="Facebook"></a></li>
+                <li><a href="#"><img src="twitter.png" alt="Twitter"></a></li>
+                <li><a href="#"><img src="linkedin.png" alt="LinkedIn"></a></li>
+            </ul>
+        </div>
+    </footer>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Reset default margin and padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+/* Container for centralizing content */
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+/* Header styles */
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+}
+
+header .logo {
+    float: left;
+}
+
+header nav {
+    float: right;
+}
+
+header nav ul {
+    list-style-type: none;
+}
+
+header nav ul li {
+    display: inline-block;
+    margin-left: 20px;
+}
+
+header nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Horizontal menu styles */
+.horizontal-menu {
+    background-color: #444;
+    padding: 10px 0;
+}
+
+.horizontal-menu ul {
+    list-style-type: none;
+    text-align: center;
+}
+
+.horizontal-menu ul li {
+    display: inline-block;
+    margin: 0 10px;
+    position: relative; /* For dropdown positioning */
+}
+
+.horizontal-menu ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 15px;
+    display: block;
+}
+
+/* Dropdown styles */
+.more-services {
+    display: none;
+    position: absolute;
+    top: 100%; /* Position dropdown below menu item */
+    left: 0;
+    background-color: #333;
+    z-index: 1;
+}
+
+.horizontal-menu ul li:hover .more-services {
+    display: block;
+}
+
+.more-services ul {
+    list-style-type: none;
+}
+
+.more-services ul li {
+    padding: 10px;
+}
+
+.more-services ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Content area styles */
+.content {
+    padding: 20px 0;
+    background-color: #fff;
+}
+
+.content .container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.content .welcome-note {
+    flex: 1 1 100%;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.content .latest-projects {
+    flex: 1 1 calc(50% - 20px); /* Two columns with margin */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.content .latest-projects .project {
+    text-align: center;
+    margin-bottom: 20px;
+    flex: 1 1 calc(50% - 20px); /* Two columns with margin */
+}
+
+.content .latest-projects .project img {
+    max-width: 100%;
+}
+
+/* Footer styles */
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+}
+
+footer .social-icons {
+    list-style-type: none;
+    padding: 0;
+}
+
+footer .social-icons li {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+footer .social-icons li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+footer .social-icons li a img {
+    width: 30px;
+    height: auto;
+}
